@@ -10,6 +10,7 @@ export async function GET() {
     url: process.env.KV_REST_API_URL!,
     token: process.env.KV_REST_API_TOKEN!,
   });
+  let didTheDeed = false;
 
   let current = (await counter.get<number>("headpats")) ?? 0;
   if (
@@ -23,7 +24,30 @@ export async function GET() {
       secure: true,
     });
     current++;
+    didTheDeed = true;
     await counter.set("headpats", current);
+  }
+
+  if (!didTheDeed) {
+    return new NextResponse(
+      `<html dir="ltr" lang="en">
+  <head>
+    <title>Midnight's Headpat</title>
+  </head>
+  <body style="margin:0;overflow:hidden;font-family:system-ui,sans-serif,serif;">
+    <main style="width:100vw;height:100vh;display:flex;justify-content:center;align-items:center;background:center / cover no-repeat url('/headpat.gif');">
+      <div style="background:#00000070;border-radius:0.5em;padding:1.5em 2em;color:white;font-size:1.25em;display:flex;justify-content:center;align-items:center;flex-direction:column;">
+        <div style="margin:0;">Hey! <i>hmph</i> That's enough patting for today.</div>
+      </div>
+    </main>
+  </body>
+</html>`,
+      {
+        headers: {
+          "Content-Type": "text/html",
+        },
+      }
+    );
   }
 
   return new NextResponse(

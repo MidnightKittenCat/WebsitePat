@@ -124,9 +124,16 @@ export async function GET() {
 }
 
 
-function getOrdinalSuffix(number: any): string {
+function getOrdinalSuffix(number: number | any): string {
+  const numericNumber = typeof number === 'number' ? number : parseInt(number, 10);
+
+  if (isNaN(numericNumber)) {
+    // Handle the case where the number is not a valid numeric value.
+    return '';
+  }
+
   const suffixes = ["th", "st", "nd", "rd"];
-  const remainder = Number(number) % 100;
+  const remainder = numericNumber % 100;
   return suffixes[(remainder - 20) % 10] || suffixes[remainder] || suffixes[0];
 }
 

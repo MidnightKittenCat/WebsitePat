@@ -38,18 +38,28 @@ export async function GET() {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-size: cover;
+    background-position: center;
   `;
 
   const containerStyles = `
-    background: #00000070;
+    background: rgba(0, 0, 0, 0.7);
     border-radius: 0.5em;
     padding: 1.5em 2em;
     color: white;
     font-size: 1.25em;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
+  `;
+
+  const patterStyles = `
+    margin-top: 0;
+    margin-bottom: 0;
+    background: #66d74a87;
+    border-radius: 0.5em;
+    padding: 0.1em 0.5em 0.3em 0.5em;
+    display: inline-block;
   `;
 
   const resultHtml = didTheDeed
@@ -57,14 +67,21 @@ export async function GET() {
       <html dir="ltr" lang="en">
         <head>
           <title>Midnight's Headpat</title>
+          <style>
+            ${commonStyles}
+            ${mainStyles}
+            body {
+              background: url('/headpat.gif');
+            }
+            ${containerStyles}
+            ${patterStyles}
+          </style>
         </head>
-        <body style="${commonStyles}">
-          <main style="${mainStyles};background:center / cover no-repeat url('/headpat.gif');">
-            <div style="${containerStyles}">
-              <div style="margin: 0;">You are the ${current}${current === 1 ? 'st' : current === 2 ? 'nd' : current === 3 ? 'rd' : 'th'}</div>
-              <div style="margin-top: 0; margin-bottom: 0; margin-left: auto; margin-right: auto; background: #66d74a87; border-radius: 0.5em; padding: 0.1em 0.5em 0.3em 0.5em; display: inline-block;">patter</div>
-            </div>
-          </main>
+        <body>
+          <div>
+            You are the ${current}${current === 1 ? 'st' : current === 2 ? 'nd' : current === 3 ? 'rd' : 'th'}
+          </div>
+          <div style="${patterStyles}">patter</div>
         </body>
       </html>
     `
@@ -72,13 +89,19 @@ export async function GET() {
       <html dir="ltr" lang="en">
         <head>
           <title>Midnight's Headpat</title>
+          <style>
+            ${commonStyles}
+            ${mainStyles}
+            body {
+              background: url('/pout.gif');
+            }
+            ${containerStyles}
+          </style>
         </head>
-        <body style="${commonStyles}">
-          <main style="${mainStyles};background:center / cover no-repeat url('/pout.gif');">
-            <div style="${containerStyles}">
-              <div style="margin: 0;">Hey! <i>hmph</i> That's enough patting for today.</div>
-            </div>
-          </main>
+        <body>
+          <div>
+            Hey! <i>hmph</i> That's enough patting for today.
+          </div>
         </body>
       </html>
     `;

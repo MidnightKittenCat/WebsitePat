@@ -39,10 +39,10 @@ export async function GET() {
     background-color: #f5f5f5;
   `;
 
-  const containerStyles = `
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  const cardStyles = `
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     padding: 32px;
     text-align: center;
   `;
@@ -64,9 +64,10 @@ export async function GET() {
         </head>
         <body style="${commonStyles}">
           <main style="${mainStyles}">
-            <div style="${containerStyles}">
+            <div style="${cardStyles}">
               <Image src="/headpat.gif" alt="Headpat Image" width={100} height={100} style="${imageStyles}" />
               <div style="font-size: 1.5em; color: #333;">You are the ${current}${current === 1 ? 'st' : current === 2 ? 'nd' : current === 3 ? 'rd' : 'th'} patter!</div>
+              <p style="font-size: 1em; color: #666;">Keep spreading the love!</p>
             </div>
           </main>
         </body>
@@ -81,9 +82,10 @@ export async function GET() {
         </head>
         <body style="${commonStyles}">
           <main style="${mainStyles}">
-            <div style="${containerStyles}">
+            <div style="${cardStyles}">
               <Image src="/pout.gif" alt="Pout Image" width={100} height={100} style="${imageStyles}" />
               <div style="font-size: 1.5em; color: #333;">Hey! <i>hmph</i> That's enough patting for today.</div>
+              <p style="font-size: 1em; color: #666;">Come back tomorrow for more fun!</p>
             </div>
           </main>
         </body>

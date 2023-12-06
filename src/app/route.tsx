@@ -28,80 +28,62 @@ export async function GET() {
 
   const commonStyles = `
     margin: 0;
-    overflow: hidden;
-    font-family: system-ui, sans-serif, serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   `;
 
   const mainStyles = `
-    width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-size: cover;
-    background-position: center;
+    background-color: #f5f5f5;
   `;
 
   const containerStyles = `
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 0.5em;
-    padding: 1.5em 2em;
-    color: white;
-    font-size: 1.25em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 32px;
+    text-align: center;
   `;
 
-  const patterStyles = `
-    margin-top: 0;
-    margin-bottom: 0;
-    background: #66d74a87;
-    border-radius: 0.5em;
-    padding: 0.1em 0.5em 0.3em 0.5em;
-    display: inline-block;
+  const imageStyles = `
+    border-radius: 50%;
+    margin-bottom: 16px;
   `;
 
   const resultHtml = didTheDeed
     ? `
-      <html dir="ltr" lang="en">
+      <html lang="en">
         <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>Midnight's Headpat</title>
-          <style>
-            ${commonStyles}
-            ${mainStyles}
-            body {
-              background: url('/headpat.gif');
-            }
-            ${containerStyles}
-            ${patterStyles}
-          </style>
         </head>
-        <body>
-          <div>
-            You are the ${current}${current === 1 ? 'st' : current === 2 ? 'nd' : current === 3 ? 'rd' : 'th'}
-          </div>
-          <div style="${patterStyles}">patter</div>
+        <body style="${commonStyles}">
+          <main style="${mainStyles}">
+            <div style="${containerStyles}">
+              <img src="/headpat.gif" alt="Headpat Image" width="100" height="100" style="${imageStyles}">
+              <div style="font-size: 1.5em; color: #333;">You are the ${current}${current === 1 ? 'st' : current === 2 ? 'nd' : current === 3 ? 'rd' : 'th'} patter!</div>
+            </div>
+          </main>
         </body>
       </html>
     `
     : `
-      <html dir="ltr" lang="en">
+      <html lang="en">
         <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>Midnight's Headpat</title>
-          <style>
-            ${commonStyles}
-            ${mainStyles}
-            body {
-              background: url('/pout.gif');
-            }
-            ${containerStyles}
-          </style>
         </head>
-        <body>
-          <div>
-            Hey! <i>hmph</i> That's enough patting for today.
-          </div>
+        <body style="${commonStyles}">
+          <main style="${mainStyles}">
+            <div style="${containerStyles}">
+              <img src="/pout.gif" alt="Pout Image" width="100" height="100" style="${imageStyles}">
+              <div style="font-size: 1.5em; color: #333;">Hey! <i>hmph</i> That's enough patting for today.</div>
+            </div>
+          </main>
         </body>
       </html>
     `;

@@ -38,7 +38,7 @@ export async function GET() {
   }
 
   // Define a function to get the appropriate ordinal suffix
-  const getOrdinalSuffix = (number) => {
+  const getOrdinalSuffix = (number: number): string => {
     if (number % 100 >= 11 && number % 100 <= 13) {
       return "th";
     }

@@ -38,7 +38,7 @@ export async function GET() {
   }
 
   // Define a function to get the appropriate ordinal suffix
-  const getOrdinalSuffix = (number: number): string => {
+  const getOrdinalSuffix = (number) => {
     if (number % 100 >= 11 && number % 100 <= 13) {
       return "th";
     }
@@ -60,8 +60,7 @@ export async function GET() {
       margin: 0;
       overflow: hidden;
       font-family: 'Comic Sans MS', cursive, sans-serif; /* Use a cute font */
-      background-color: ${didTheDeed ? '#000' : '#1a1a1a'}; /* Dark mode background color */
-      color: white;
+      background-color: #1a1a1a; /* Dark mode background */
     }
 
     main {
@@ -71,10 +70,21 @@ export async function GET() {
       justify-content: center;
       align-items: center;
       background: center / cover no-repeat url('${didTheDeed ? '/headpat.gif' : '/pout.gif'}');
+      opacity: 0; /* Initial opacity for animation */
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
 
     .message-container {
-      background: ${didTheDeed ? '#00000070' : '#333'}; /* Dark mode card background color */
+      background: #00000070;
       border-radius: 0.5em;
       padding: 1.5em 2em;
       color: white;
@@ -83,8 +93,18 @@ export async function GET() {
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      width: 320px; /* Adjusted card width to match the first card */
+      animation: slideIn 0.5s ease-in-out forwards;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
 
     .message {

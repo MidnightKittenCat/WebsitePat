@@ -49,6 +49,8 @@ export async function GET() {
 
   const imageStyles = `
     border-radius: 50%;
+    max-width: 100%;
+    height: auto;
     margin-bottom: 16px;
   `;
 
@@ -63,7 +65,7 @@ export async function GET() {
         <body style="${commonStyles}">
           <main style="${mainStyles}">
             <div style="${containerStyles}">
-              <img src="/headpat.gif" alt="Headpat Image" width="100" height="100" style="${imageStyles}">
+              <Image src="/headpat.gif" alt="Headpat Image" width={100} height={100} style="${imageStyles}" />
               <div style="font-size: 1.5em; color: #333;">You are the ${current}${current === 1 ? 'st' : current === 2 ? 'nd' : current === 3 ? 'rd' : 'th'} patter!</div>
             </div>
           </main>
@@ -80,7 +82,7 @@ export async function GET() {
         <body style="${commonStyles}">
           <main style="${mainStyles}">
             <div style="${containerStyles}">
-              <img src="/pout.gif" alt="Pout Image" width="100" height="100" style="${imageStyles}">
+              <Image src="/pout.gif" alt="Pout Image" width={100} height={100} style="${imageStyles}" />
               <div style="font-size: 1.5em; color: #333;">Hey! <i>hmph</i> That's enough patting for today.</div>
             </div>
           </main>

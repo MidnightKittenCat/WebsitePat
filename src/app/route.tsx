@@ -1,100 +1,153 @@
-import Image from 'next/image';
-import { cookies } from 'next/headers';
-import { createClient } from '@vercel/kv';
-import { NextResponse } from 'next/server';
+// Import necessary modules and components
+import { cookies } from "next/headers";
+import { createClient } from "@vercel/kv";
+import { NextResponse } from "next/server";
+
+// Import cute images
+import headpatImage from '../public/headpat.gif';
+import poutImage from '../public/pout.gif';
 
 export async function GET() {
+  // Retrieve cookie and create KV client
   const cookieStore = cookies();
-  const lastHeadpat = cookieStore.get('headpat');
+  const lastHeadpat = cookieStore.get("headpat");
   const counter = createClient({
     url: process.env.KV_REST_API_URL!,
     token: process.env.KV_REST_API_TOKEN!,
   });
 
+  // Initialize variables
   let didTheDeed = false;
-  let current = (await counter.get<number>('headpats')) ?? 0;
+  let current = (await counter.get<number>("headpats")) ?? 0;
 
-  if (!lastHeadpat || new Date(lastHeadpat.value).getTime() > new Date().getTime() - 1000 * 60 * 60 * 24) {
-    cookieStore.set('headpat', new Date().getTime().toString(), {
+  // Check if headpat has been done in the last 24 hours
+  if (
+    !lastHeadpat ||
+    new Date(lastHeadpat.value).getTime() >
+      new Date().getTime() - 1000 * 60 * 60 * 24
+  ) {
+    // Perform headpat and update counter
+    cookieStore.set("headpat", new Date().getTime().toString(), {
       httpOnly: true,
       expires: new Date().getTime() + 1000 * 60 * 60 * 24,
       secure: true,
     });
-
     current++;
     didTheDeed = true;
-    await counter.set('headpats', current);
+    await counter.set("headpats", current);
   }
 
-  const commonStyles = `
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  // Define a function to get the appropriate ordinal suffix
+  const getOrdinalSuffix = (number) => {
+    if (number % 100 >= 11 && number % 100 <= 13) {
+      return "th";
+    }
+    switch (number % 10) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+    }
+  };
+
+  // Define styles as a template string
+  const styles = `
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Comic Sans MS', cursive, sans-serif; /* Use a cute font */
+      background-color: ${didTheDeed ? '#000' : '#1a1a1a'}; /* Dark mode background color */
+      color: white;
+    }
+
+    main {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: center / cover no-repeat url('${didTheDeed ? '/headpat.gif' : '/pout.gif'}');
+    }
+
+    .message-container {
+      background: ${didTheDeed ? '#00000070' : '#333'}; /* Dark mode card background color */
+      border-radius: 0.5em;
+      padding: 1.5em 2em;
+      color: white;
+      font-size: 1.25em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 320px; /* Adjusted card width to match the first card */
+    }
+
+    .message {
+      margin: 0;
+    }
+
+    .patter-badge {
+      margin-top: 0;
+      margin-bottom: 0;
+      margin-left: auto;
+      margin-right: auto;
+      background: #66d74a87;
+      border-radius: 0.5em;
+      padding: 0.1em 0.5em 0.3em 0.5em;
+      display: inline-block;
+    }
   `;
 
-  const mainStyles = `
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f5f5f5;
-  `;
-
-  const cardStyles = `
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    padding: 32px;
-    text-align: center;
-  `;
-
-  const imageStyles = `
-    border-radius: 50%;
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 16px;
-  `;
-
-  const resultHtml = didTheDeed
-    ? `
-      <html lang="en">
+  // Return the appropriate response based on whether headpat was performed
+  if (!didTheDeed) {
+    // Use pout image and add cute styles
+    return new NextResponse(
+      `<html lang="en">
         <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>Midnight's Headpat</title>
+          <style>${styles}</style>
         </head>
-        <body style="${commonStyles}">
-          <main style="${mainStyles}">
-            <div style="${cardStyles}">
-              <Image src="/headpat.gif" alt="Headpat Image" width={100} height={100} style="${imageStyles}" />
-              <div style="font-size: 1.5em; color: #333;">You are the ${current}${current === 1 ? 'st' : current === 2 ? 'nd' : current === 3 ? 'rd' : 'th'} patter!</div>
-              <p style="font-size: 1em; color: #666;">Keep spreading the love!</p>
+        <body>
+          <main>
+            <div class="message-container">
+              <div class="message">Hey! <i>hmph</i> That's enough patting for today.</div>
             </div>
           </main>
         </body>
-      </html>
-    `
-    : `
-      <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Midnight's Headpat</title>
-        </head>
-        <body style="${commonStyles}">
-          <main style="${mainStyles}">
-            <div style="${cardStyles}">
-              <Image src="/pout.gif" alt="Pout Image" width={100} height={100} style="${imageStyles}" />
-              <div style="font-size: 1.5em; color: #333;">Hey! <i>hmph</i> That's enough patting for today.</div>
-              <p style="font-size: 1em; color: #666;">Come back tomorrow for more fun!</p>
-            </div>
-          </main>
-        </body>
-      </html>
-    `;
+      </html>`,
+      {
+        headers: {
+          "Content-Type": "text/html",
+        },
+      }
+    );
+  }
 
-  return new NextResponse(resultHtml, {
-    headers: {
-      'Content-Type': 'text/html',
-    },
-  });
+  // Use headpat image and add cute styles
+  return new NextResponse(
+    `<html lang="en">
+      <head>
+        <title>Midnight's Headpat</title>
+        <style>${styles}</style>
+      </head>
+      <body>
+        <main>
+          <div class="message-container">
+            <div class="message">You are the ${current}${getOrdinalSuffix(current)}</div>
+            <div class="patter-badge">patter</div>
+          </div>
+        </main>
+      </body>
+    </html>`,
+    {
+      headers: {
+        "Content-Type": "text/html",
+      },
+    }
+  );
 }

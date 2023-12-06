@@ -124,8 +124,8 @@ export async function GET() {
 }
 
 
-function getOrdinalSuffix(number: number | any): string {
-  const numericNumber = typeof number === 'number' ? number : parseInt(number, 10);
+function getOrdinalSuffix(number: number | string): string {
+  const numericNumber = typeof number === 'string' ? parseInt(number, 10) : number;
 
   if (isNaN(numericNumber)) {
     // Handle the case where the number is not a valid numeric value.

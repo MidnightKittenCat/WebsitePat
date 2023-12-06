@@ -123,8 +123,12 @@ export async function GET() {
   );
 }
 
-function getOrdinalSuffix(number: number): string {
+
+function getOrdinalSuffix(number: any): string {
   const suffixes = ["th", "st", "nd", "rd"];
-  const remainder = number % 100;
+  const remainder = Number(number) % 100;
   return suffixes[(remainder - 20) % 10] || suffixes[remainder] || suffixes[0];
 }
+
+
+

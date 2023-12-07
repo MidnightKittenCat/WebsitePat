@@ -1,14 +1,15 @@
 {
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
+    "rewrites": [
         {
-          "key": "User-Agent",
-          "value": "Discordbot",
-          "operation": "deny"
+            "source": "/(.*)",
+            "has": [
+                {
+                    "type": "header",
+                    "key": "User-Agent",
+                    "value": "Discordbot"
+                }
+            ],
+            "destination": "https://vercel.com"
         }
-      ]
-    }
-  ]
+    ]
 }

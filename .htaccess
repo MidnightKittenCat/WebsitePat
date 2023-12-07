@@ -1,7 +1,0 @@
-<IfModule mod_setenvif.c>
-    BrowserMatchNoCase Discordbot bad_bot
-</IfModule>
-<Files *>
-    Order Deny,Allow
-    Deny from env=bad_bot
-</Files>

@@ -1,0 +1,14 @@
+{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "User-Agent",
+          "value": "Discordbot",
+          "operation": "block"
+        }
+      ]
+    }
+  ]
+}

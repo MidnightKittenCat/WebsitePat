@@ -1,15 +1,15 @@
 {
-    "rewrites": [
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "",
+      "has": [
         {
-            "source": "/(.*)",
-            "has": [
-                {
-                    "type": "header",
-                    "key": "User-Agent",
-                    "value": "Discordbot"
-                }
-            ],
-            "destination": "https://vercel.com"
+          "type": "header",
+          "key": "user-agent",
+          "value": "Discordbot"
         }
-    ]
+      ]
+    }
+  ]
 }
